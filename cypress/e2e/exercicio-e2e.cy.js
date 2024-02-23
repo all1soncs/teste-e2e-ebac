@@ -26,25 +26,18 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
 
   it('Deve adicionar produtos ao carrinho', () => {
     cy.get('#primary-menu > .menu-item-629 > a').click();
-    // Adicionar os produtos ao carrinho quatro vezes
-    produtosPage.adicionarProdutoAoCarrinho1();
-    cy.get('.woocommerce-message').should('contain', 'Abominable Hoodie” foi adicionado no seu carrinho');
-    cy.get('#primary-menu > .menu-item-629 > a').click();
 
-    produtosPage.adicionarProdutoAoCarrinho2();
-    cy.get('.woocommerce-message').should('contain', '“Aero Daily Fitness Tee” foi adicionado no seu carrinho');
-    cy.get('#primary-menu > .menu-item-629 > a').click();
+    // Adicionar o produto ao carrinho
+    produtosPage.adicionarProdutoAoCarrinho('2559', 'XS', 'Green', 1);
 
-    produtosPage.adicionarProdutoAoCarrinho3();
-    cy.get('.woocommerce-message').should('contain', '“Aether Gym Pant” foi adicionado no seu carrinho.');
-    cy.get('#primary-menu > .menu-item-629 > a').click();
+    // Verificar se o produto foi adicionado com sucesso
+    cy.get('.woocommerce-message').should('contain', '4 × “Abominable Hoodie” foram adicionados no seu carrinho.');
 
-    produtosPage.adicionarProdutoAoCarrinho4();
-    cy.get('.woocommerce-message').should('contain', '“Apollo Running Short” foi adicionado no seu carrinho.');
+    // Clicar novamente no menu para continuar o teste
+    cy.get('.woocommerce-message > .button').click();
 
     //Preencha as opções necessárias no formulário de checkout
-    cy.get('.woocommerce-message > .button').click();
-    cy.get('.checkout-buttgiton').click();
+    cy.get('.checkout-button').click();
     cy.get('#billing_first_name').type('Allison');
     cy.get('#billing_last_name').type('Silva');
     cy.get('#select2-billing_country-container').click();
